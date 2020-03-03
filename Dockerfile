@@ -104,3 +104,5 @@ make install
 
 COPY ssh_setup.sh .
 RUN /bin/bash ssh_setup.sh
+
+CMD /usr/sbin/sshd -D

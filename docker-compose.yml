@@ -1,0 +1,35 @@
+version: '3'
+services:
+  # One container per service
+  host-a:
+    # Use our custom image with MPICH and PETSc installed
+    image: mpich_petsc_test:latest
+    # Keep the container running and awaiting user input
+    tty: true
+    # Redundant and not that useful
+    environment:
+      - "MPIEXEC_PORT_RANGE:2125-2129"
+    # Want to have the SSH port open
+    ports:
+      - 2122:2122
+      - 2125-2129:2125-2129
+    # Need the shared storage mounted in-container
+    volumes:
+      - "./data:/home/dev/data"
+      - "./.ssh:/home/dev/.ssh"
+    # Want to start shell session in shared directory
+    working_dir: "/home/dev/data"
+    #links:
+    #    - "host-b"
+  # Mostly identical and largely passive container
+  host-b:
+    image: mpich_petsc_test:latest
+    tty: true
+    environment:
+      - "MPIEXEC_PORT_RANGE:2130:2130"
+    ports:
+      - 2123:2122
+      - 2130-2134:2130-2134
+    volumes:
+      - "./data:/home/dev/data"
+      - "./.ssh:/home/dev/.ssh"
