@@ -16,6 +16,11 @@ apt-get install -y \
     git \
     curl \
     python \
+    cmake \
+    openssh-server \
+    vim \
+    bison \
+    flex \
     m4 \
     freeglut3 \
     doxygen \
@@ -92,3 +97,10 @@ git checkout 5ea3abfa7fe8791a5f316416921daa28f47703d9 ; \
       --with-sowing=0 ; \
 make all -j $(nproc) ; \
 make install
+
+#-----------------------------------------------------------------------------#
+# Add SSH capability for non-root user dev
+#-----------------------------------------------------------------------------#
+
+COPY ssh_setup.sh .
+RUN /bin/bash ssh_setup.sh
